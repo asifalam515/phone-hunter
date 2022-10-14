@@ -11,7 +11,7 @@ const displayPhones=phones=>{
   // clear the past text content
   phoneContainer.textContent=''
   // display 20 phones only
-  phones=phones.slice(0,20)
+  phones=phones.slice(0,10)
 
 
   // display no phones found
@@ -41,14 +41,29 @@ phoneDiv.innerHTML=`
 phoneContainer.appendChild(phoneDiv)
 
   })
+  // stop spinner or loader
+toggleSpinner(false)
 }
 
+// handle search button click
 document.getElementById('btn-search').addEventListener('click',function(){
+  // start Loader:
+toggleSpinner(true)
    const searchField=document.getElementById('search-field ')
    const searchText=searchField.value;
    loadPhones(searchText)
 
 })
+const toggleSpinner=isLoading=>{
+  const loaderSection=document.getElementById('loader')
+  if(isLoading){
+    loaderSection.classList.remove('d-none')
+  }else{
+    loaderSection.classList.add('d-none')
+  }
+
+
+}
 
 
 // loadPhones()
