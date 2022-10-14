@@ -41,7 +41,7 @@ phoneDiv.innerHTML=`
   <div class="card-body">
     <h5 class="card-title">${phone.phone_name}</h5>
     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+    <btn onclick="loadPhoneDetails('${phone.slug}')" href="#" class="btn btn-primary">Show Details</btn>
   </div>
 </div>
 `
@@ -54,7 +54,7 @@ toggleSpinner(false)
 
 const processSearch=(dataLimit)=>{
   toggleSpinner(true)
-   const searchField=document.getElementById('search-field ')
+   const searchField=document.getElementById('search-field')
    const searchText=searchField.value;
    loadPhones(searchText,dataLimit)
 }
@@ -66,6 +66,13 @@ document.getElementById('btn-search').addEventListener('click',function(){
 
 
 })
+// search input field enter key handler
+document.getElementById('search-field').addEventListener('keypress',function (e){
+  if(e.key=='Enter'){
+    processSearch(10)
+  }
+})
+
 const toggleSpinner=isLoading=>{
   const loaderSection=document.getElementById('loader')
   if(isLoading){
@@ -81,5 +88,14 @@ const toggleSpinner=isLoading=>{
 document.getElementById('btn-show-all').addEventListener('click',function(){
 processSearch()
 })
+
+const loadPhoneDetails=async (id)=>{
+  const url=` https://openapi.programming-hero.com/api/phone/${id}`
+  const res=await fetch(url)
+  const data=await res.json()
+  console.log(data.data)
+}
+
+
 
 // loadPhones()
