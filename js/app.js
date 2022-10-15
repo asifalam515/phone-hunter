@@ -41,7 +41,11 @@ phoneDiv.innerHTML=`
   <div class="card-body">
     <h5 class="card-title">${phone.phone_name}</h5>
     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <btn onclick="loadPhoneDetails('${phone.slug}')" href="#" class="btn btn-primary">Show Details</btn>
+    <btn onclick="loadPhoneDetails('${phone.slug}')" href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#phoneDetailModal">Show Details</btn>
+    
+    
+
+
   </div>
 </div>
 `
@@ -93,9 +97,21 @@ const loadPhoneDetails=async (id)=>{
   const url=` https://openapi.programming-hero.com/api/phone/${id}`
   const res=await fetch(url)
   const data=await res.json()
-  console.log(data.data)
+  displayPhoneDetails(data.data)
+}
+
+const displayPhoneDetails=(phone)=>{
+console.log(phone)
+const modalTittle=document.getElementById('phoneDetailModalLabel')
+modalTittle.innerText=phone.name
+const phoneDetails=document.getElementById('phone-details')
+
+phoneDetails.innerHTML=`
+<p>Reelase Date:${phone.releaseDate ? phone.releaseDate: 'no release date available'}</p>
+<p>Storage: ${phone.mainFeatures ? phone.mainFeatures.storage :'no information found'}</p>
+<P>Others:${phone.others? phone.others.Bluetooth : 'no bluetood found'}</P>
+`
 }
 
 
-
-// loadPhones()
+loadPhones('apple')
